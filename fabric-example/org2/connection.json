@@ -1,0 +1,85 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "A gateway connection file for the PaperNet networks",
+  "x-type": "hlfv1",
+  "client": {
+    "organization": "Org2",
+    "connection": {
+      "timeout": {
+        "peer": {
+          "endorser": "300"
+        },
+        "orderer": "300"
+      }
+    }
+  },
+  "channels": {
+    "logistics": {
+      "orderers": [
+        "orderer0.example.com"
+      ],
+      "peers": {
+        "peer0.org2.example.com": {
+          "endorsingPeer" : true,
+          "chaincodeQuery" : true,
+          "ledgerQuery" : true,
+          "eventSource" : true
+        }
+      },
+      "chaincodes": {
+        "logistics": "1.0"
+      }
+    }
+  },
+  "organizations": {
+    "Org2": {
+      "mspid": "Org2MSP",
+      "peers": [
+        "peer0.org2.example.com"
+      ],
+      "certificateAuthorities": [
+        "ca.org2.com"
+      ]
+    }
+  },
+  "orderers": {
+    "orderer0.example.com": {
+      "url": "grpcs://localhost:7050",
+      "grpcOptions": {
+        "ssl-target-name-override": "orderer0.example.com"
+      },
+      "tlsCACerts": {
+        "path": "../crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/msp/tlscacerts/tlsca.example.com-cert.pem"
+      }
+    }
+  },
+  "peers": {
+    "peer0.org2.example.com": {
+      "url": "grpcs://localhost:8051",
+      "grpcOptions": {
+        "ssl-target-name-override": "peer0.org2.example.com",
+        "request-timeout": 120
+      },
+      "tlsCACerts": {
+        "path": "../crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt"
+      }
+    }
+  },
+  "certificateAuthorities": {
+    "ca.org2.com": {
+      "url": "https://localhost:8054",
+      "caName": "ca.org2.com",
+      "httpOptions": {
+        "verify": false
+      },
+      "registrar": [{
+        "enrollId": "admin",
+        "enrollSecret": "adminpw"
+      }],
+      "tlsCACerts": {
+        "path": "../crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem"
+      }
+    }
+  }
+}

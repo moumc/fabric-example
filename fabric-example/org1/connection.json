@@ -1,0 +1,101 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "A gateway connection file for the PaperNet networks",
+  "x-type": "hlfv1",
+  "client": {
+    "organization": "Org1",
+    "connection": {
+      "timeout": {
+        "peer": {
+          "endorser": "300"
+        },
+        "orderer": "300"
+      }
+    }
+  },
+  "channels": {
+    "product": {
+      "orderers": [
+        "orderer0.example.com"
+      ],
+      "peers": {
+        "peer0.org1.example.com": {
+          "endorsingPeer" : true,
+          "chaincodeQuery" : true,
+          "ledgerQuery" : true,
+          "eventSource" : true
+        }
+      },
+      "chaincodes": {
+        "product": "1.0"
+      }
+    },
+    "logistics": {
+      "orderers": [
+        "orderer0.example.com"
+      ],
+      "peers": {
+        "peer0.org1.example.com": {
+          "endorsingPeer" : false,
+          "chaincodeQuery" : true,
+          "ledgerQuery" : true,
+          "eventSource" : true
+        }
+      },
+      "chaincodes": {
+        "logistics": "1.0"
+      }
+    }
+  },
+  "organizations": {
+    "Org1": {
+      "mspid": "Org1MSP",
+      "peers": [
+        "peer0.org1.example.com"
+      ],
+      "certificateAuthorities": [
+        "ca.org1.com"
+      ]
+    }
+  },
+  "orderers": {
+    "orderer0.example.com": {
+      "url": "grpcs://localhost:7050",
+      "grpcOptions": {
+        "ssl-target-name-override": "orderer0.example.com"
+      },
+      "tlsCACerts": {
+        "path": "../crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/msp/tlscacerts/tlsca.example.com-cert.pem"
+      }
+    }
+  },
+  "peers": {
+    "peer0.org1.example.com": {
+      "url": "grpcs://localhost:7051",
+      "grpcOptions": {
+        "ssl-target-name-override": "peer0.org1.example.com",
+        "request-timeout": 120
+      },
+      "tlsCACerts": {
+        "path": "../crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
+      }
+    }
+  },
+  "certificateAuthorities": {
+    "ca.org1.com": {
+      "url": "https://localhost:7054",
+      "caName": "ca.org1.com",
+      "httpOptions": {
+        "verify": false
+      },
+      "registrar": [{
+        "enrollId": "admin",
+        "enrollSecret": "adminpw"
+      }],
+      "tlsCACerts": {
+        "path": "../crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
+      }
+    }
+  }
+}
